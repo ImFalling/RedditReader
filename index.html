@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <script src="jquery.js"></script>
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <div id="inputs">
+            <input class="redditName" type="text"placeholder="Subreddit">
+            <input class="numberPosts" min=1 max=100 value="10" type="number">
+            <button onclick="newFetch()">Fetch</button>
+            <a href="#" onclick="previousPage()">Prev</a>
+            <a href="#" onclick="nextPage()">Next</a>
+        </div>
+        <div id="postList">
+        </div>
+        <div id="postReader">
+        </div>
+    </body>
+    <!-- Post Template to clone and assign data to -->
+    <div style="display: none;" class="postTemplate postLink">
+            <a class="contentLink">
+                <img class="thumbnail"/>
+            </a>
+            <a class="inspectLink" href="#">
+                <h1 class="title"></h1>
+                <h2 class="author"></h2>
+                <h2 class="score"></h2>
+            </a>
+            <a class="commentLink"><h3 class="comments"></h3>
+            <h3 class="date"></h3></a>
+    </div>
+</html>
