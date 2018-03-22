@@ -1,66 +1,117 @@
-*{
+:root {
+    /* Color Palette */
+    --dark: #2d4351;
+    --darker: #0F1626;
+    --bright: #F6F6F6;
+    --beige: #AB987A;
+    --red: #FF533D;
+    --blue: #628dff;
+    --brightBlue: rgb(61, 113, 255);
+}
+
+* {
     margin: 0;
     padding: 0;
+    color: var(--bright);
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
-body{
+body {
     height: 100vh;
-    width: 99vw;
+    width: 100vw;
     display: block;
+    background-color: var(--dark);
 }
 
-#inputs{
+#inputs {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
     height: 5%;
     width: 50%;
 }
 
-#inputs > * {
+#inputs>* {
     margin-left: 2px;
     margin-right: 2px;
+    color: var(--dark);
 }
 
-#postList{
+#postList {
     height: 95%;
     width: 50%;
-    border: 1px solid black;
+    border: 1px solid var(--darker);
     float: left;
-    box-sizing: border-box;
     overflow-y: scroll;
 }
 
-#postReader{
+#postReader {
     height: 75%;
     width: 50%;
     float: left;
     position: fixed;
     right: 0;
     top: 12.5%;
-    box-sizing: border-box;
     box-shadow: 0px 0px 2px 0px black;
+    overflow-y: scroll;
 }
 
-.postLink{
-    width: 99.7%;
-    height: 128px;
-    border: 1px solid black;
+#postReader .preview {
+    width: 100%;
+    padding: 10%;
+}
+
+.postLink {
+    width: 100%;
+    min-height: 128px;
+    border: 1px solid var(--darker);
     display: block;
 }
 
-.postLink .thumbnail{
-    width: 128px;
+.postLink .thumbnailContainer {
     height: 100%;
-    float: left;    
+    width: 15%;
 }
 
-.postLink .author{
+.postLink .infoContainer{
+    width: 85%;
+    height: 100%;
+    margin-left: 15.5%;
+}
+
+.postLink .thumbnail {
+    width: 100%;
+    height: 128px;
+    float: left;
+    background-color: var(--bright);
+    margin-right: 0.5%;
+}
+
+.postLink .author {
     float: left;
     margin-right: 50px;
+    color: var(--brightBlue);
+    font-weight: normal;
+    font-size: 15px;
 }
 
-.postLink .title{
+.postLink .score {
+    color: var(--brightBlue);
+    font-weight: normal;
+    font-size: 15px;
+}
+
+.postLink .title {
     font-size: 20px;
+    color: var(--blue);
+    margin-top: 0.5%;
+}
+
+.postLink .inspectLink {
+    text-decoration: none;
+}
+
+.postLink .commentLink {
+    font-size: 10px;
 }

@@ -19,19 +19,29 @@
         <div id="postList">
         </div>
         <div id="postReader">
+            <div class="postLink"></div>
+            <p></p>
+            <img class="preview" src="" />
+            <div class="commentSection"></div>
         </div>
     </body>
     <!-- Post Template to clone and assign data to -->
     <div style="display: none;" class="postTemplate postLink">
-            <a class="contentLink">
-                <img class="thumbnail"/>
-            </a>
-            <a class="inspectLink" href="#">
-                <h1 class="title"></h1>
-                <h2 class="author"></h2>
-                <h2 class="score"></h2>
-            </a>
-            <a class="commentLink"><h3 class="comments"></h3>
-            <h3 class="date"></h3></a>
+            <div class="thumbnailContainer">
+                <a class="contentLink">
+                    <img class="thumbnail"/>
+                </a>
+            </div>
+            <div class="infoContainer">
+                <a class="inspectLink" href="#">
+                    <h1 class="title"></h1>
+                    <h2 class="author"></h2>
+                    <h2 class="score"></h2>
+                </a>
+                <a class="commentLink">
+                    <h3 class="comments"></h3>
+                    <h3 class="date"></h3>
+                </a>
+            </div>
     </div>
 </html>
