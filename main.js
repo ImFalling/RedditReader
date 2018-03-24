@@ -144,12 +144,24 @@ function nextPage() {
 
 //Inspect Post
 function inspectLink(element, postObject) {
+    $("body").css("margin-left", "-100vw");
     $("#postReader").find(".postLink").replaceWith($(element));
-    if (postObject.type == 0)
+    if (postObject.type == 0){
+        $("#postReader").find("p").css("display", "block");
         $("#postReader").find("p").html(postObject.content);
-    else
+        $("#postReader").find(".preview").css("display", "none");
+    }
+    else{
+        $("#postReader").find(".preview").css("display", "block");
         $("#postReader").find("img").attr("src", postObject.content);
+        $("#postReader").find("p").css("display", "none");
+    }
     console.log(fetchComments(postObject));
+}
+
+//Uninspect Post
+function back(){
+    $("body").css("margin-left", "0"); 
 }
 
 //Fetch Comments

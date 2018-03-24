@@ -17,49 +17,74 @@
     box-sizing: border-box;
 }
 
+a:focus { 
+    outline: 0; 
+}
+
 body {
     height: 100vh;
-    width: 100vw;
+    width: 200vw;
     display: block;
     background-color: var(--dark);
+    overflow-x: hidden;
 }
 
 #inputs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5%;
-    width: 50%;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    height: 10vh;
+    background-color: var(--dark);
 }
 
 #inputs>* {
     margin-left: 2px;
     margin-right: 2px;
     color: var(--dark);
+    margin-top: 1.8vh;
+}
+
+#postListContainer{
+    width: 100vw;
+    height: 100%;
+    float: left;
 }
 
 #postList {
-    height: 95%;
-    width: 50%;
+    width: 100vw;
+    height: 90vh;
     border: 1px solid var(--darker);
     float: left;
     overflow-y: scroll;
 }
 
 #postReader {
-    height: 75%;
-    width: 50%;
+    width: 100vw;
+    height: 100vh;
     float: left;
-    position: fixed;
     right: 0;
-    top: 12.5%;
     box-shadow: 0px 0px 2px 0px black;
     overflow-y: scroll;
 }
 
 #postReader .preview {
     width: 100%;
-    padding: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+}
+
+#postReader p{
+    margin-top: 0.5%;
+}
+
+#postReader #backContainer{
+    height: 10vh;
+    background-color: var(--dark);
+}
+#postReader #backContainer button{
+    color: var(--dark);
+    margin-top: 1.8vh;
 }
 
 .postLink {
@@ -71,21 +96,22 @@ body {
 
 .postLink .thumbnailContainer {
     height: 100%;
-    width: 15%;
+    width: 10%;
+    float: left;
+    display: inline-block;
 }
 
 .postLink .infoContainer{
     width: 85%;
     height: 100%;
-    margin-left: 15.5%;
+    margin-left: 128px;
 }
 
 .postLink .thumbnail {
-    width: 100%;
+    width: 128px;
     height: 128px;
     float: left;
     background-color: var(--bright);
-    margin-right: 0.5%;
 }
 
 .postLink .author {
@@ -106,6 +132,10 @@ body {
     font-size: 20px;
     color: var(--blue);
     margin-top: 0.5%;
+}
+
+.postLink .title:focus{
+    color: red;
 }
 
 .postLink .inspectLink {

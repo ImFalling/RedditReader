@@ -9,16 +9,21 @@
         <script src="main.js"></script>
     </head>
     <body>
-        <div id="inputs">
-            <input class="redditName" type="text"placeholder="Subreddit">
-            <input class="numberPosts" min=1 max=100 value="10" type="number">
-            <button onclick="newFetch()">Fetch</button>
-            <a href="#" onclick="previousPage()">Prev</a>
-            <a href="#" onclick="nextPage()">Next</a>
-        </div>
-        <div id="postList">
+        <div id="postListContainer">
+            <div id="inputs">
+                <input class="redditName" type="text"placeholder="Subreddit">
+                <input class="numberPosts" min=1 max=100 value="10" type="number">
+                <button onclick="newFetch()">Fetch</button>
+                <button onclick="previousPage()">Prev</button>
+                <button onclick="nextPage()">Next</button>
+            </div>
+            <div id="postList">
+            </div>
         </div>
         <div id="postReader">
+            <div id="backContainer">
+                <button onclick="back()">Back</button>
+            </div>
             <div class="postLink"></div>
             <p></p>
             <img class="preview" src="" />
