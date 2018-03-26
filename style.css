@@ -87,6 +87,16 @@ body {
     margin-top: 1.8vh;
 }
 
+#postReader .contentContainer{
+    margin: 1%;
+    padding: 1%;
+    border: 2px solid var(--darker);
+}
+
+#postReader .commentHeader{
+    margin: 1%;
+}
+
 .postLink {
     width: 100%;
     min-height: 128px;
@@ -98,7 +108,6 @@ body {
     height: 100%;
     width: 10%;
     float: left;
-    display: inline-block;
 }
 
 .postLink .infoContainer{
@@ -144,4 +153,16 @@ body {
 
 .postLink .commentLink {
     font-size: 10px;
+}
+
+.postComment{
+    border: 2px solid var(--darker);
+    margin: 1%;
+    padding: 1%;
+    overflow-x: scroll;
+}
+
+.postComment span{
+    margin-right: 0.5%;
+    color: var(--blue);
 }

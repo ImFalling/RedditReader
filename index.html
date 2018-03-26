@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="style.css" rel="stylesheet">
+        <script src="snuownd.js"></script>
         <script src="jquery.js"></script>
         <script src="main.js"></script>
     </head>
@@ -25,8 +26,11 @@
                 <button onclick="back()">Back</button>
             </div>
             <div class="postLink"></div>
-            <p></p>
-            <img class="preview" src="" />
+            <div class="contentContainer">
+                <p></p>
+                <img class="preview" src="" />
+            </div>
+            <span class="commentHeader">Comments:</span>
             <div class="commentSection"></div>
         </div>
     </body>
@@ -48,5 +52,11 @@
                     <h3 class="date"></h3>
                 </a>
             </div>
+    </div>
+    <!-- Comment Template to clone and assign data to -->
+    <div style="display: none;" class="commentTemplate postComment">
+        <span class="author"></span> - <span class="score"></span> - <a href="#"><span class="expand">Expand/Collapse</span></a>
+        <p class="content"></p>
+        <div class="children"></div>
     </div>
 </html>

@@ -56,7 +56,7 @@ function parseFeed(rawFeed) {
         post.author = ctx.author;
         post.comments = ctx.num_comments;
         if (ctx.is_self)
-            post.content = ctx.selftext;
+            post.content = SnuOwnd.getParser().render(ctx.selftext);
         else
             post.content = ctx.url;
         post.createdDate = new Date(ctx.created * 1000).toDateString();
@@ -144,29 +144,59 @@ function nextPage() {
 
 //Inspect Post
 function inspectLink(element, postObject) {
+    //Move the viewport
     $("body").css("margin-left", "-100vw");
+    //clone the postlink to append it to the postreader
     $("#postReader").find(".postLink").replaceWith($(element));
+
+    //If it's a self post (text or link)
     if (postObject.type == 0){
-        $("#postReader").find("p").css("display", "block");
-        $("#postReader").find("p").html(postObject.content);
+        $("#postReader").find("p").replaceWith(postObject.content);
         $("#postReader").find(".preview").css("display", "none");
     }
+
+    //else
     else{
         $("#postReader").find(".preview").css("display", "block");
         $("#postReader").find("img").attr("src", postObject.content);
         $("#postReader").find("p").css("display", "none");
     }
-    console.log(fetchComments(postObject));
+
+    //Fetch comments
+    var fetchedComments = fetchComments(postObject, 0);
+
+    //Update global variables
+    RawComments = fetchedComments.raw;
+    ParsedComments = fetchedComments.parsed;
+    
+    //Create a DOM element for every parsed comment and append them to the reader.
+    $.each(fetchedComments.parsed, function (i, e) { 
+        var comment = $(".commentTemplate").clone();
+        comment.attr("style", "");
+        comment.attr("class", "postComment");
+        comment.find(".author").html(e.author);
+        comment.find(".score").html(e.score + " points");
+        //Click handler for fetching children of a comment
+        comment.find(".expand").click(function(){
+            expandChildren(comment, e);
+        })
+        comment.find(".content").replaceWith(e.content);
+        comment.appendTo("#postReader .commentSection");
+    });
+
+
 }
 
-//Uninspect Post
+//De-inspect Post
 function back(){
-    $("body").css("margin-left", "0"); 
+    $("body").css("margin-left", "0");
+    $("#postReader .commentSection").empty();
 }
 
 //Fetch Comments
-function fetchComments(postObject) {
-    var output = "";
+function fetchComments(postObject, index) {
+    var output = [];
+    var parsed = [];
     //Fetch the JSON.
     $.ajax({
         url: postObject.url + ".json",
@@ -175,7 +205,87 @@ function fetchComments(postObject) {
             output = data;
         }
     });
-    return output;
+
+    //Parse the fetched JSON to a simplyfied state on demand, 10 at a time.
+    for(var i = index; i < index + 10; i++){
+        if(output[1].data.children[i] != null){
+            var e = output[1].data.children[i];
+            var x = new redditComment();
+            if(e.data.replies.data != null)
+                x.rawChildren = e.data.replies.data.children;
+            x.content = SnuOwnd.getParser().render(e.data.body);
+            x.author = e.data.author;
+            x.score = e.data.score;
+            parsed.push(x);
+        }
+        else
+            break;
+    }
+    return {
+        parsed: parsed,
+        raw: output
+    }
+        
+}
+
+//Function to parse, style and append replies to a comment element.
+function expandChildren(parentCommentElement, parentCommentObject){
+    //Array for parsed children
+    var parsed = [];
+
+    //If we haven't parsed the comment's children yet, let's do that.
+    if(!parentCommentElement.hasClass("parsed")){
+
+        //Go through the raw JSON replies of the comment
+        $.each(parentCommentObject.rawChildren, function (i, e) {
+    
+            //Create a redditComment object for simplified access
+            var comment = new redditComment();
+            if(e.data.replies.data != null)
+                comment.rawChildren = e.data.replies.data.children;
+            comment.content = SnuOwnd.getParser().render(e.data.body);
+            comment.author = e.data.author;
+            comment.score = e.data.score;
+
+            //Push it to the parsed children array
+            parsed.push(comment);
+    
+            //Create the html element and populate it with content
+            var child = $(".commentTemplate").clone();
+            child.find(".children").empty();
+            child.attr("style", "");
+            child.attr("class", "postComment");
+            child.find(".author").html(comment.author);
+            child.find(".score").html(comment.score + " points");
+            //Set up a click handler to append the children of a child.
+            child.find(".expand").click(function(){
+                expandChildren(child, comment);
+            });
+            child.find(".content").html(comment.content);
+
+            //Append it to the parent's children container
+            child.appendTo(parentCommentElement.find(".children"));
+        });
+        //Ensure we don't parse comments more than once.
+        parentCommentElement.addClass("parsed");
+        //Add the expanded class to keep track of the status of the comment
+        parentCommentElement.toggleClass("expanded");
+        //Set the parent's children array to the parsed array we created.
+        parentCommentObject.children = parsed;
+    }
+
+    //If we've already parsed the raw JSON, we just display none or display block depending on if we want to show it or not.
+    else{
+        if(parentCommentElement.hasClass("expanded")){
+            parentCommentElement.find(".children").css("display", "none");
+            parentCommentElement.removeClass("expanded");
+
+        }
+        else{
+            parentCommentElement.find(".children").css("display", "block");
+            parentCommentElement.addClass("expanded");
+        }
+    }
 }
 
 /* EOS */
@@ -196,6 +306,15 @@ function redditPost() {
     this.id = "";
 }
 
+function redditComment(){
+    this.content = "";
+    this.author = "";
+    this.score = 0;
+    this.index = 0;
+    this.children = [];
+    this.rawChildren = {};
+}
+
 /* EOS */
 
 /* GLOBAL VARIABLES */
@@ -213,7 +332,11 @@ var afterID = "";
 //Variable for containing the most recent, raw JSON feed.
 var RawFeed = {};
 
-//Varaible for containing the most recent, parsed JSON feed.
+//Variable for containing the most recent, parsed JSON feed.
 var ParsedFeed = [];
 
-/* EOS */
+//Variable for containing the raw JSON comment feed for the currently inspected post.
+var RawComments = {};
+
+//Variable for containing the parsed JSON comment feed for the currently inspected post.
+var ParsedComments = [];
