@@ -238,53 +238,52 @@ function expandChildren(parentCommentElement, parentCommentObject){
 
         //Go through the raw JSON replies of the comment
         $.each(parentCommentObject.rawChildren, function (i, e) {
-    
-            //Create a redditComment object for simplified access
-            var comment = new redditComment();
-            if(e.data.replies.data != null)
-                comment.rawChildren = e.data.replies.data.children;
-            comment.content = SnuOwnd.getParser().render(e.data.body);
-            comment.author = e.data.author;
-            comment.score = e.data.score;
+            if(e.data.replies != null){
+                //Create a redditComment object for simplified access
+                var comment = new redditComment();
+                if(e.data.replies.data != null )
+                    comment.rawChildren = e.data.replies.data.children;
+                comment.content = SnuOwnd.getParser().render(e.data.body);
+                comment.author = e.data.author;
+                comment.score = e.data.score;
 
-            //Push it to the parsed children array
-            parsed.push(comment);
-    
-            //Create the html element and populate it with content
-            var child = $(".commentTemplate").clone();
-            child.find(".children").empty();
-            child.attr("style", "");
-            child.attr("class", "postComment");
-            child.find(".author").html(comment.author);
-            child.find(".score").html(comment.score + " points");
-            //Set up a click handler to append the children of a child.
-            child.find(".expand").click(function(){
-                expandChildren(child, comment);
-            });
-            child.find(".content").html(comment.content);
+                //Push it to the parsed children array
+                parsed.push(comment);
+        
+                //Create the html element and populate it with content
+                var child = $(`<div class="postComment">
+        <span class="author"></span> - <span class="score"></span> - <a class="expand" href="#"><span>Expand/Collapse</span></a>
+        <p class="content"></p>
+        <div class="children" style="display: none"></div>
+    </div>`);
+                child.attr("class", "postComment");
+                child.children(".author").html(comment.author);
+                child.children(".score").html(comment.score + " points");
+                //Set up a click handler to append the children of a child.
+                child.children(".expand").click(function(){
+                    expandChildren(child, comment);
+                });
+                child.children(".content").html(comment.content);
 
-            //Append it to the parent's children container
-            child.appendTo(parentCommentElement.find(".children"));
+                //Append it to the parent's children container
+                child.appendTo(parentCommentElement.find(".children"));
+            }
         });
         //Ensure we don't parse comments more than once.
         parentCommentElement.addClass("parsed");
-        //Add the expanded class to keep track of the status of the comment
-        parentCommentElement.toggleClass("expanded");
+
         //Set the parent's children array to the parsed array we created.
         parentCommentObject.children = parsed;
     }
 
     //If we've already parsed the raw JSON, we just display none or display block depending on if we want to show it or not.
+    if(parentCommentElement.hasClass("expanded")){
+        parentCommentElement.children(".children").css("display", "none");
+        parentCommentElement.toggleClass("expanded");
+    }
     else{
-        if(parentCommentElement.hasClass("expanded")){
-            parentCommentElement.find(".children").css("display", "none");
-            parentCommentElement.removeClass("expanded");
-
-        }
-        else{
-            parentCommentElement.find(".children").css("display", "block");
-            parentCommentElement.addClass("expanded");
-        }
+        parentCommentElement.children(".children").css("display", "block");
+        parentCommentElement.toggleClass("expanded");
     }
 }
 

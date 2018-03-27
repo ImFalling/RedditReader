@@ -85,7 +85,7 @@ body {
 #postReader #backContainer button{
     color: var(--dark);
     margin-top: 1.8vh;
-}
+}   
 
 #postReader .contentContainer{
     margin: 1%;
@@ -98,28 +98,25 @@ body {
 }
 
 .postLink {
-    width: 100%;
-    min-height: 128px;
     border: 1px solid var(--darker);
     display: block;
+    margin: 1%;
+    padding: 1%;
 }
 
 .postLink .thumbnailContainer {
-    height: 100%;
-    width: 10%;
+    width: 70px;
     float: left;
+    margin-right: 0.5%;
 }
 
-.postLink .infoContainer{
-    width: 85%;
-    height: 100%;
-    margin-left: 128px;
+.postLink .linksContainer{
+    margin-top: -0.8%;
 }
 
 .postLink .thumbnail {
-    width: 128px;
-    height: 128px;
-    float: left;
+    height: 70px;
+    width: 70px;
     background-color: var(--bright);
 }
 
