@@ -33,7 +33,7 @@ body {
     display: inline-block;
     text-align: center;
     width: 100%;
-    height: 10vh;
+    height: 5vh;
     background-color: var(--dark);
 }
 
@@ -79,7 +79,7 @@ body {
 }
 
 #postReader #backContainer{
-    height: 10vh;
+    height: 5vh;
     background-color: var(--dark);
 }
 #postReader #backContainer button{
